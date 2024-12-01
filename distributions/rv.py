@@ -10,6 +10,9 @@ class alshenawy_gen(rv_continuous):
     def _cdf(self, x, beta):
         return np.exp((1 / beta) * (1 - np.exp(beta / x)))
 
+    def _ppf(self, q, beta):
+        return beta / np.log(1 - beta * np.log(q))
+
     def _logpdf(self, x, beta):
         return beta / x - 2 * np.log(x) + (1 - np.exp(beta / x)) / beta
 

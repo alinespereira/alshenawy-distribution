@@ -1,1 +1,1 @@
-from .continuous import Alshenawy
+from .continuous import A

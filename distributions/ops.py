@@ -3,10 +3,10 @@ from typing import Tuple
 import numpy as np
 from pytensor.tensor.random.op import RandomVariable
 
-from distributions.rv import alshenawy
+from distributions.rv import a
 
 
-class AlshenawyRV(RandomVariable):
+class ARV(RandomVariable):
     name: str = "alshenawy"
 
     # Provide a numpy-style signature for this RV, which indicates
@@ -37,7 +37,7 @@ class AlshenawyRV(RandomVariable):
         beta: np.ndarray,
         size: Tuple[int, ...],
     ) -> np.ndarray:
-        return alshenawy.rvs(beta, random_state=rng, size=size)
+        return a.rvs(beta, random_state=rng, size=size)
 
 # Create the actual `RandomVariable` `Op`...
-alshenawy_rv = AlshenawyRV()
+a_rv = ARV()

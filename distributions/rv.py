@@ -2,7 +2,7 @@ import numpy as np
 from scipy.stats import rv_continuous
 
 
-class alshenawy_gen(rv_continuous):
+class a_gen(rv_continuous):
     "Alshenawy's A distribution"
     def _pdf(self, x, beta):
         return np.exp((1 / beta) * (1 - np.exp(beta / x)) + beta / x) / (x ** 2)
@@ -19,4 +19,4 @@ class alshenawy_gen(rv_continuous):
     def _logcdf(self, x, beta):
         return (1 / beta) * (1 - np.exp(beta / x))
 
-alshenawy = alshenawy_gen(a=0.0, name='alshenawy')
+a = a_gen(a=0.0, name='a')

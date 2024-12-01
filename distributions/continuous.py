@@ -6,13 +6,13 @@ from pymc.distributions.continuous import PositiveContinuous
 from pymc.distributions.dist_math import check_parameters
 from pymc.distributions.shape_utils import rv_size_is_none
 
-from distributions.ops import alshenawy_rv
+from distributions.ops import a_rv
 
 # Subclassing `PositiveContinuous` will dispatch a default `log` transformation
-class Alshenawy(PositiveContinuous):
+class A(PositiveContinuous):
     # This will be used by the metaclass `DistributionMeta` to dispatch the
     # class `logp` and `logcdf` methods to the `blah` `Op` defined in the last line of the code above.
-    rv_op = alshenawy_rv
+    rv_op = a_rv
 
     # dist() is responsible for returning an instance of the rv_op.
     # We pass the standard parametrizations to super().dist

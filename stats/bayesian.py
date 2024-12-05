@@ -24,20 +24,28 @@ class SamplerParams(TypedDict):
     random_seed: np.random.Generator
 
 
+def make_model(
+        sample: npt.NDArray,
+        prior: PositiveContinuous,
+        prior_params: PriorParams,
+    ) -> pm.Model:
+    with pm.Model() as model:
+        data = pm.Data("sample", sample)
+        beta = prior(**prior_params)
+        y = A("y", beta=beta, observed=data)
+
+    return model
 
 def simulate(
         param: float,
         sample: npt.NDArray,
-        prior: PositiveContinuous,
-        prior_params: PriorParams,
+        model: pm.Model,
         alpha: float,
         sampler_params: SamplerParams
     ) -> Simulation:
 
-    with pm.Model() as model:
-        beta = prior(**prior_params)
-        y = A("y", beta=beta, observed=sample)
-
+    with model:
+        model.set_data("sample", sample)
 
         idata = pm.sample(**sampler_params)
 

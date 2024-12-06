@@ -1,43 +1,50 @@
 from typing import Tuple
 
-import numpy as np
+import jax
+import jax.numpy as jnp
 from pytensor.tensor.random.op import RandomVariable
 
 from distributions.rv import a
 
 
 class ARV(RandomVariable):
-    name: str = "alshenawy"
+    """
+    RandomVariable personalizado para a distribuição A.
+    """
+    name: str = "a"
 
-    # Provide a numpy-style signature for this RV, which indicates
-    # the number and core dimensionality of each input and output.
+    # A assinatura NumPy/PyTensor para este RV
     signature = "()->()"
 
-    # The NumPy/PyTensor dtype for this RV (e.g. `"int32"`, `"int64"`).
-    # The standard in the library is `"int64"` for discrete variables
-    # and `"floatX"` for continuous variables
-    dtype: str = "floatX"
+    # O tipo de dado (dtype) para este RV, usando JAX
+    dtype: str = "float32"
 
-    # A pretty text and LaTeX representation for the RV
+    # Nome e representação LaTeX para o RV
     _print_name: Tuple[str, str] = ("A", "\\operatorname{A}")
-
-    # If you want to add a custom signature and default values for the
-    # parameters, do it like this. Otherwise this can be left out.
-
-    #     return super().__call__(loc, scale, **kwargs)
-
-    # This is the Python code that produces samples.  Its signature will always
-    # start with a NumPy `RandomState` object, then the distribution
-    # parameters, and, finally, the size.
 
     @classmethod
     def rng_fn(
         cls,
-        rng: np.random.RandomState,
-        beta: np.ndarray,
+        rng_key,  # Usando o JAX RNG Key
+        beta: jnp.ndarray,
         size: Tuple[int, ...],
-    ) -> np.ndarray:
-        return a.rvs(beta, random_state=rng, size=size)
+    ) -> jnp.ndarray:
+        """
+        Função para gerar amostras da distribuição A usando JAX.
 
-# Create the actual `RandomVariable` `Op`...
+        Parâmetros:
+            rng_key: jax.random.KeyArray
+                A chave do gerador de números aleatórios do JAX.
+            beta: jnp.ndarray
+                O parâmetro beta para a distribuição A.
+            size: Tupla
+                O tamanho da amostra a ser gerada.
+
+        Retorna:
+            jnp.ndarray
+                Amostras geradas de acordo com a distribuição A.
+        """
+        return a.rvs(beta, random_state=rng_key, size=size)
+
+# Criando o RandomVariable 'Op' para a distribuição A
 a_rv = ARV()

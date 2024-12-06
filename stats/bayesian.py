@@ -1,3 +1,4 @@
+import logging
 from typing import TypedDict
 
 import numpy as np
@@ -8,6 +9,9 @@ from pymc.distributions.continuous import PositiveContinuous
 
 from distributions.continuous import A
 from .utils import ConfidenceInterval, Simulation
+
+logger = logging.getLogger("pymc")
+logger.setLevel(logging.WARNING)
 
 
 class PriorParams(TypedDict):
@@ -22,6 +26,8 @@ class SamplerParams(TypedDict):
     target_accept: float
     return_inferencedata: bool
     random_seed: np.random.Generator
+    nuts_sampler: str
+    progressbar: bool
 
 
 def make_model(
@@ -41,7 +47,7 @@ def simulate(
         sample: npt.NDArray,
         model: pm.Model,
         alpha: float,
-        sampler_params: SamplerParams
+        sampler_params: SamplerParams,
     ) -> Simulation:
 
     with model:

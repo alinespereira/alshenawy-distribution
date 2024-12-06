@@ -39,7 +39,7 @@ def simulate(
     observed_information = 1 / result.hess_inv.todense()[0, 0]
     estimator_distribution = stats.norm(
         loc=estimate,
-        scale=1 / np.sqrt(sample_size * observed_information)
+        scale=1 / np.sqrt(observed_information)
     )
     ci = ConfidenceInterval(
         lower=estimator_distribution.ppf(alpha / 2),
